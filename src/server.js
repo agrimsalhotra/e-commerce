@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 import pool from "./config/db.js";
 
 import productRoutes from "./routes/productRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import { errorMiddleware } from "./middleware/errorMiddleware.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -13,6 +15,7 @@ const PORT = process.env.PORT;
 const NODE_ENV = process.env.NODE_ENV;
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/health", (req, res) => {
   res.json({
@@ -40,7 +43,10 @@ app.get("/health/db", async (req, res) => {
   }
 });
 
+app.use("/api/auth", authRoutes);
+
 app.use("/api/products", productRoutes);
+
 
 app.use(errorMiddleware);
 

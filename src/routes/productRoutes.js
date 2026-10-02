@@ -9,7 +9,7 @@ import {
   deleteProduct
 } from "../controllers/productController.js";
 
-import { tenantMiddleware } from "../middleware/tenantMiddleware.js";
+//import { tenantMiddleware } from "../middleware/tenantMiddleware.js";
 
 import { validate } from "../middleware/validate.js";
 
@@ -18,10 +18,11 @@ import {
   replaceProductSchema,
   updateProductSchema
 } from "../validators/productValidator.js";
+import { authenticate } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.use(tenantMiddleware);
+router.use(authenticate);
 
 router.get("/", getProducts);
 

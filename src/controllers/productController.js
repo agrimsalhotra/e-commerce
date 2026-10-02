@@ -3,7 +3,7 @@ import * as productService from "../services/productService.js";
 export async function createProduct(req, res, next) {
   try {
     const product = await productService.createProduct(
-      req.tenantId,
+      req.user.tenantId,
       req.body
     );
 
@@ -28,7 +28,7 @@ export async function getProducts(req, res, next) {
     const offset = (page - 1) * limit;
 
     const products = await productService.getProducts(
-      req.tenantId,
+      req.user.tenantId,
       limit,
       offset
     );
@@ -48,7 +48,7 @@ export async function getProducts(req, res, next) {
 export async function getProductById(req, res, next) {
   try {
     const product = await productService.getProductById(
-      req.tenantId,
+      req.user.tenantId,
       Number(req.params.id)
     );
 
@@ -67,7 +67,7 @@ export async function getProductById(req, res, next) {
 export async function updateProduct(req, res, next) {
   try {
     const product = await productService.updateProduct(
-      req.tenantId,
+      req.user.tenantId,
       Number(req.params.id),
       req.body
     );
@@ -87,7 +87,7 @@ export async function updateProduct(req, res, next) {
 export async function patchProduct(req, res, next) {
   try {
     const product = await productService.patchProduct(
-      req.tenantId,
+      req.user.tenantId,
       Number(req.params.id),
       req.body
     );
@@ -107,7 +107,7 @@ export async function patchProduct(req, res, next) {
 export async function deleteProduct(req, res, next) {
   try {
     const deleted = await productService.deleteProduct(
-      req.tenantId,
+      req.user.tenantId,
       Number(req.params.id)
     );
 
