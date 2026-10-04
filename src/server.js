@@ -4,6 +4,7 @@ import pool from "./config/db.js";
 
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import { errorMiddleware } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
 
@@ -46,6 +47,7 @@ app.get("/health/db", async (req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
 
 
 app.use(errorMiddleware);

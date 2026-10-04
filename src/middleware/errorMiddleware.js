@@ -1,7 +1,13 @@
 export function errorMiddleware(err, req, res, next) {
   console.error(err);
 
-  res.status(500).json({
-    error: "Internal server error"
+  const statusCode =
+    err.statusCode || 500;
+
+  res.status(statusCode).json({
+    error:
+      statusCode === 500
+        ? "Internal server error"
+        : err.message
   });
 }
