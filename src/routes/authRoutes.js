@@ -12,6 +12,7 @@ import {
   registerSchema,
   loginSchema
 } from "../validators/authValidator.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = express.Router();
 
@@ -20,13 +21,13 @@ const router = express.Router();
 router.post(
   "/register",
   validate(registerSchema),
-  register
+  asyncHandler(register)
 );
 
 router.post(
   "/login",
   validate(loginSchema),
-  login
+  asyncHandler(login)
 );
 //router.post("/refresh", refresh);
 

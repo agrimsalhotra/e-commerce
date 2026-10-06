@@ -24,6 +24,7 @@ export async function createProduct(tenantId, data) {
 }
 
 export async function getProducts(tenantId, limit, offset) {
+  //throw new Error("Test internal error");//temporary
   const [rows] = await pool.query(
     `
       SELECT id, tenant_id, name, price, created_at

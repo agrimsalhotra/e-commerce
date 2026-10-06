@@ -1,7 +1,7 @@
 import * as authService from "../services/authService.js";
 
 export async function register(req, res, next) {
-  try {
+  
     const user = await authService.registerUser({
       tenantId: req.body.tenantId,
       email: req.body.email,
@@ -10,13 +10,11 @@ export async function register(req, res, next) {
 
     res.status(201).json(user);
 
-  } catch (error) {
-    next(error);
-  }
+  
 }
 
 export async function login(req, res, next) {
-  try {
+  
     const result = await authService.loginUser({
       tenantId: req.body.tenantId,
       email: req.body.email,
@@ -45,7 +43,5 @@ export async function login(req, res, next) {
       user: result.user
     });
 
-  } catch (error) {
-    next(error);
-  }
+  
 }

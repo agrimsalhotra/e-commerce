@@ -1,20 +1,18 @@
 import * as productService from "../services/productService.js";
 
 export async function createProduct(req, res, next) {
-  try {
+  
     const product = await productService.createProduct(
       req.user.tenantId,
       req.body
     );
 
     res.status(201).json(product);
-  } catch (error) {
-    next(error);
-  }
+  
 }
 
 export async function getProducts(req, res, next) {
-  try {
+  
     const limit = Math.min(
       Number(req.query.limit) || 20,
       100
@@ -40,13 +38,11 @@ export async function getProducts(req, res, next) {
         limit
       }
     });
-  } catch (error) {
-    next(error);
-  }
+  
 }
 
 export async function getProductById(req, res, next) {
-  try {
+ 
     const product = await productService.getProductById(
       req.user.tenantId,
       Number(req.params.id)
@@ -59,13 +55,11 @@ export async function getProductById(req, res, next) {
     }
 
     res.json(product);
-  } catch (error) {
-    next(error);
-  }
+  
 }
 
 export async function updateProduct(req, res, next) {
-  try {
+  
     const product = await productService.updateProduct(
       req.user.tenantId,
       Number(req.params.id),
@@ -79,13 +73,11 @@ export async function updateProduct(req, res, next) {
     }
 
     res.json(product);
-  } catch (error) {
-    next(error);
-  }
+  
 }
 
 export async function patchProduct(req, res, next) {
-  try {
+  
     const product = await productService.patchProduct(
       req.user.tenantId,
       Number(req.params.id),
@@ -99,13 +91,11 @@ export async function patchProduct(req, res, next) {
     }
 
     res.json(product);
-  } catch (error) {
-    next(error);
-  }
+ 
 }
 
 export async function deleteProduct(req, res, next) {
-  try {
+  
     const deleted = await productService.deleteProduct(
       req.user.tenantId,
       Number(req.params.id)
@@ -118,7 +108,5 @@ export async function deleteProduct(req, res, next) {
     }
 
     res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
+  
 }

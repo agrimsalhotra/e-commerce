@@ -9,6 +9,9 @@ import {
   checkoutSchema
 } from "../validators/orderValidator.js";
 
+import { asyncHandler } from "../utils/asyncHandler.js";
+
+
 const router = express.Router();
 
 router.use(authenticate);
@@ -16,7 +19,7 @@ router.use(authenticate);
 router.post(
   "/checkout",
   validate(checkoutSchema),
-  checkout
+  asyncHandler(checkout)
 );
 
 export default router;
