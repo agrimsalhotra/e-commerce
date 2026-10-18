@@ -19,8 +19,13 @@ import {
   updateProductSchema
 } from "../validators/productValidator.js";
 import { authenticate } from "../middleware/authMiddleware.js";
+import { uploadProductImage } from "../middleware/upload.js";
 
+import {
+  uploadProductImage as uploadProductImageController
+} from "../controllers/productImageController.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+
 
 
 const router = express.Router();
@@ -52,5 +57,12 @@ router.patch(
 );
 
 router.delete("/:id", deleteProduct);
+
+router.post(
+  "/:id/image",
+  authenticate,
+  uploadProductImage,
+  asyncHandler(uploadProductImageController)
+);
 
 export default router;

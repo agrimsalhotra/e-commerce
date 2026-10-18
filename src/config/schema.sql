@@ -112,3 +112,6 @@ CREATE TABLE order_items (
     INDEX idx_order_items_order (order_id),
     INDEX idx_order_items_product (product_id)
 );
+
+ALTER TABLE products
+ADD COLUMN image_url VARCHAR(500) NULL;

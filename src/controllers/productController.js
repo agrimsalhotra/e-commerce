@@ -1,5 +1,7 @@
 import * as productService from "../services/productService.js";
 
+
+
 export async function createProduct(req, res, next) {
   
     const product = await productService.createProduct(

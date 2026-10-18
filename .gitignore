@@ -1,2 +1,14 @@
 node_modules/
 .env
+
+# Uploaded product images
+uploads/products/temp/*
+uploads/products/processed/*
+
+# Preserve the directory structure
+!uploads/products/temp/.gitkeep
+!uploads/products/processed/.gitkeep
+
+
+.postman/
+postman/

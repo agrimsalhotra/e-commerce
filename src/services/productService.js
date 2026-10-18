@@ -27,7 +27,7 @@ export async function getProducts(tenantId, limit, offset) {
   //throw new Error("Test internal error");//temporary
   const [rows] = await pool.query(
     `
-      SELECT id, tenant_id, name, price, created_at
+      SELECT id, tenant_id, name, price, image_url, created_at
       FROM products
       WHERE tenant_id = ?
       ORDER BY id
@@ -42,7 +42,7 @@ export async function getProducts(tenantId, limit, offset) {
 export async function getProductById(tenantId, productId) {
   const [rows] = await pool.query(
     `
-      SELECT id, tenant_id, name, price, created_at
+      SELECT id, tenant_id, name, price, image_url, created_at
       FROM products
       WHERE tenant_id = ?
         AND id = ?
