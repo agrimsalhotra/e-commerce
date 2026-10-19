@@ -2,15 +2,15 @@ import orderEvents from "./orderEvents.js";
 
 import {
   handleOrderEmail
-} from "../listeners/orderEmailListener.js";
+} from "../listeners/orderEmailListeners.js";
 
 import {
   handleAdminNotification
-} from "../listeners/orderAdminListener.js";
+} from "../listeners/orderAdminListeners.js";
 
 import {
   handleOrderAnalytics
-} from "../listeners/orderAnalyticsListener.js";
+} from "../listeners/orderAnalyticsListeners.js";
 
 import logger from "../config/logger.js";
 

@@ -1,5 +1,7 @@
 import pool from "../config/db.js";
 import { AppError } from "../utils/AppError.js";
+import orderEvents from "../events/orderEvents.js";
+import logger from "../config/logger.js";
 
 export async function checkoutService({
   tenantId,
@@ -127,8 +129,7 @@ export async function checkoutService({
 
     // 8. Commit everything
     await connection.commit();
-
-    return {
+    const order = {
       orderId,
       tenantId,
       userId,
@@ -139,15 +140,43 @@ export async function checkoutService({
       status: "PENDING"
     };
 
+    try {
+      orderEvents.emit("order:placed", order);
+    } catch (error) {
+      logger.error(
+        { err: error, orderId, tenantId },
+        "Failed to emit order:placed event"
+      );
+    }
+
+    return order;
   } catch (error) {
-
     await connection.rollback();
-
     throw error;
-
   } finally {
-
     connection.release();
-
   }
 }
+//     return {
+//       orderId,
+//       tenantId,
+//       userId,
+//       productId,
+//       quantity,
+//       unitPrice: product.price,
+//       totalAmount,
+//       status: "PENDING"
+//     };
+
+//   } catch (error) {
+
+//     await connection.rollback();
+
+//     throw error;
+
+//   } finally {
+
+//     connection.release();
+
+//   }
+// }
