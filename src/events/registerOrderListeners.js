@@ -14,6 +14,22 @@ import {
 
 import logger from "../config/logger.js";
 
+import { emitToTenant } from "../realtime/socket.js";
+
+function handleOrderWebSocketUpdate(order) {
+  const payload = {
+    orderId: order.orderId,
+    status: order.status,
+    createdAt: new Date().toISOString(),
+  };
+
+  emitToTenant(
+    order.tenantId,
+    "order:placed",
+    payload
+  );
+}
+
 async function runListener(listenerName, handler, order) {
   try {
     await handler(order);
@@ -50,6 +66,11 @@ function onOrderPlaced(order) {
   void runListener(
     "analytics",
     handleOrderAnalytics,
+    order
+  );
+  void runListener(
+    "websocket",
+    handleOrderWebSocketUpdate,
     order
   );
 }

@@ -121,3 +121,8 @@ ADD COLUMN payment_expires_at DATETIME NULL;
 
 CREATE INDEX idx_orders_expiration
 ON orders (status, payment_expires_at, id);
+
+CREATE TABLE job_locks (
+  job_name VARCHAR(100) NOT NULL PRIMARY KEY,
+  locked_until DATETIME NOT NULL
+);
