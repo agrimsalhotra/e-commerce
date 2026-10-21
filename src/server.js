@@ -18,9 +18,23 @@ import {
   closeSocketServer
 } from "./realtime/socket.js";
 
+import helmet from "helmet";
+
+import {
+  authLimiter,
+  apiLimiter
+} from "./middleware/rateLimiters.js";
+
+import {
+  startScheduledJobs,
+  stopScheduledJobs
+} from "./jobs/index.js";
+
 dotenv.config();
 
 const app = express();
+
+app.use(helmet());
 
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -63,9 +77,9 @@ app.get("/health/db", async (req, res) => {
 });
 
 // API routes
-app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
+app.use("/api/auth",authLimiter, authRoutes);
+app.use("/api/products",apiLimiter, productRoutes);
+app.use("/api/orders",apiLimiter, orderRoutes);
 
 // Centralized error middleware should remain after the routes.
 app.use(errorMiddleware);
@@ -78,6 +92,8 @@ initializeSocket(server);
 
 // Register Step 8 event listeners exactly once.
 registerOrderListeners();
+
+startScheduledJobs();
 
 // Start the server.
 server.listen(PORT, () => {
@@ -102,6 +118,7 @@ async function gracefulShutdown(signal) {
 
   logger.info({ signal }, "Shutdown started");
 
+  
   // Stop accepting new HTTP connections.
   server.close(async (serverError) => {
     if (serverError) {
@@ -116,6 +133,9 @@ async function gracefulShutdown(signal) {
     try {
       await closeSocketServer();
       logger.info("Socket.IO server closed");
+
+      await stopScheduledJobs();
+      logger.info("Scheduled jobs closed");
 
       await pool.end();
       logger.info("Database pool closed");
@@ -139,3 +159,6 @@ process.on("SIGTERM", () => {
 process.on("SIGINT", () => {
   void gracefulShutdown("SIGINT");
 });
+
+
+

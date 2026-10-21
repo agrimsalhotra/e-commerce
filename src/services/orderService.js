@@ -78,9 +78,10 @@ export async function checkoutService({
             tenant_id,
             user_id,
             status,
-            total_amount
+            total_amount,
+            payment_expires_at
           )
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?, ?,DATE_ADD(UTC_TIMESTAMP(), INTERVAL 15 MINUTE))
       `,
       [
         tenantId,

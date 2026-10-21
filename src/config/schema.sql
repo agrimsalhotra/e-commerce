@@ -115,3 +115,9 @@ CREATE TABLE order_items (
 
 ALTER TABLE products
 ADD COLUMN image_url VARCHAR(500) NULL;
+
+ALTER TABLE orders
+ADD COLUMN payment_expires_at DATETIME NULL;
+
+CREATE INDEX idx_orders_expiration
+ON orders (status, payment_expires_at, id);
